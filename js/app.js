@@ -9,7 +9,7 @@ var Enemy = function(x, y) {
 
   this.x = x;
   this.y = y;
-  this.speed = getRandomInt(85, 100);
+  this.speed = getRandomInt(85, 200);
 };
 
 // Update the enemy's position, required method for game
@@ -21,25 +21,20 @@ Enemy.prototype.update = function(dt) {
   // all computers.
   this.x += this.speed * dt;
     
-  if(this.x > 6 * 100) {
+  if(this.x > 6 * 200) {
     this.x = -100;
-    this.speed = getRandomInt(85, 100);
+    this.speed = getRandomInt(85, 200);
   }
-    this.checkCollision();
-  }
+ if(Math.abs(this.x - player.x) < 200 && Math.abs(this.y - player.y) < 85) {
+    player.reset();  }
 };
 
- if(Math.abs(this.x - player.x) < 100 && Math.abs(this.y - player.y) < 85) {
-    player.reset();
+
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
      
-     
-     Enemy.prototype.checkCollision = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -114,7 +109,7 @@ Player.prototype.handleInput = function(allowedKeys) {
 var numEnemies = 3;
 var allEnemies = [];
 for(var i = 0; i < numEnemies; i++) {
-  allEnemies.push(new Enemy(i*100, (i+1)*85));
+  allEnemies.push(new Enemy(i*200, (i+1)*85));
 }
 
 var player = new Player();
