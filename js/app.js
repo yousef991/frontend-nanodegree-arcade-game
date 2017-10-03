@@ -9,7 +9,7 @@ var Enemy = function(x, y) {
 
   this.x = x;
   this.y = y;
-  this.speed = getRandomInt(80, 90);
+  this.speed = getRandomInt(85, 100);
 };
 
 // Update the enemy's position, required method for game
@@ -23,16 +23,21 @@ Enemy.prototype.update = function(dt) {
     
   if(this.x > 6 * 100) {
     this.x = -100;
-    this.speed = getRandomInt(80, 90);
+    this.speed = getRandomInt(85, 100);
   }
-    
-  if(Math.abs(this.x - player.x) < 100 && Math.abs(this.y - player.y) < 85) {
-    player.reset();
+    this.checkCollision();
   }
 };
 
+ if(Math.abs(this.x - player.x) < 100 && Math.abs(this.y - player.y) < 85) {
+    player.reset();
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+     
+     
+     Enemy.prototype.checkCollision = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
@@ -50,11 +55,15 @@ Player.prototype.update = function() {
     this.col = 0;
   }
 
-  if(this.col > 4) {
-    this.col = 4;
+  if(this.col > 1) {
+    this.col = 1;
   }
 
   if(this.row > 5) {
+    this.row = 5;
+  }
+    
+    if(this.row < 0) {
     this.row = 5;
   }
 
@@ -71,10 +80,33 @@ Player.prototype.reset = function() {
   this.x = this.col * 100;
   this.y = this.row * 85;
 };
+Player.prototype.handleInput = function(allowedKeys) {
+    switch (allowedKeys) {
+        case "left":
+            if (this.x > 0) {
+                this.x -= 100;
+            }
+            break;
+        case "right":
+            if (this.x < 400) {
+                this.x += 100;
+            }
+            break;
+        case "up":
+            if (this.y < 2) {
+            } else {
+                this.y -= 85;
+            }
+            break;
+        case "down":
+            if (this.y < 400) {
+                this.y += 85;
+            }
+            break;
+    }
 
-
-
-
+};
+        
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -96,7 +128,7 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
+  player.handleInput(allowedKeys[e.keyCode]);
 });
 
 function getRandomInt(min, max) {
