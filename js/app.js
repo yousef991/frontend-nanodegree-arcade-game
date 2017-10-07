@@ -25,7 +25,7 @@ Enemy.prototype.update = function(dt) {
     this.x = -100;
     this.speed = getRandomInt(85, 200);
   }
- if(Math.abs(this.x - player.x) < 200 && Math.abs(this.y - player.y) < 85) {
+ if(Math.abs(this.x - player.x) < 80 && Math.abs(this.y - player.y) < 40) {
     player.reset();  }
 };
 
@@ -46,6 +46,7 @@ var Player = function() {
 };
 
 Player.prototype.update = function() {
+
   if(this.col < 0) {
     this.col = 0;
   }
@@ -58,8 +59,8 @@ Player.prototype.update = function() {
     this.row = 5;
   }
     
-    if(this.row < 0) {
-    this.row = 5;
+    if(this.y < 0) {
+    this.reset();
   }
 
 };
@@ -70,10 +71,8 @@ Player.prototype.render = function() {
 
 
 Player.prototype.reset = function() {
-  this.col = 2;
-  this.row = 5;
-  this.x = this.col * 100;
-  this.y = this.row * 85;
+  this.x = 200
+  this.y = 400;
 };
 Player.prototype.handleInput = function(allowedKeys) {
     switch (allowedKeys) {
@@ -99,7 +98,7 @@ Player.prototype.handleInput = function(allowedKeys) {
             }
             break;
     }
-
+  console.log(this)
 };
         
 // Now instantiate your objects.
@@ -109,7 +108,7 @@ Player.prototype.handleInput = function(allowedKeys) {
 var numEnemies = 3;
 var allEnemies = [];
 for(var i = 0; i < numEnemies; i++) {
-  allEnemies.push(new Enemy(i*200, (i+1)*85));
+  allEnemies.push(new Enemy(i*200, ((i)*85) + 60));
 }
 
 var player = new Player();
