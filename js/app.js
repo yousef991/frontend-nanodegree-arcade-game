@@ -61,6 +61,7 @@ Player.prototype.update = function() {
     
     if(this.y < 0) {
     this.reset();
+    alert("congratulations");
   }
 
 };
